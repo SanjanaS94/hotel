@@ -1,0 +1,39 @@
+{
+  "configs": [
+    "global-config.xml",
+    "implementation/thirdpartyvalidation.xml",
+    "customer.xml"
+  ],
+  "secureProperties": [],
+  "redeploymentEnabled": true,
+  "name": "com.mycompany:customers:1.0.0-SNAPSHOT",
+  "minMuleVersion": "4.4.0",
+  "requiredProduct": "MULE_EE",
+  "classLoaderModelLoaderDescriptor": {
+    "id": "mule",
+    "attributes": {
+      "exportedPackages": [],
+      "exportedResources": [
+        "log4j2.xml",
+        ".DS_Store",
+        "global-config.xml",
+        "dev.yaml",
+        "temp.properties",
+        "customer.xml",
+        "implementation/thirdpartyvalidation.xml",
+        "api/example/customer1.raml",
+        "api/example/success.raml",
+        "api/example/serverError.raml",
+        "api/DataTypes/success.raml",
+        "api/DataTypes/customer.raml",
+        "api/DataTypes/address.raml",
+        "api/DataTypes/serverError.raml",
+        "api/customer.raml"
+      ]
+    }
+  },
+  "bundleDescriptorLoader": {
+    "id": "mule",
+    "attributes": {}
+  }
+}

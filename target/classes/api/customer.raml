@@ -1,0 +1,43 @@
+#%RAML 1.0
+title: customer
+version: 1.0.0
+documentation:
+  -
+    content: To check whether the customer details is valid
+    title: Customer Details
+mediaType: 
+- application/json
+types:
+  customer : !include DataTypes/customer.raml
+  success : !include DataTypes/success.raml
+  serverError : !include DataTypes/serverError.raml
+/customer:
+  displayName: Customer Resource
+  description: Displays Customer Details
+  post:
+    displayName: POST Customer Details
+    description: Add customer info
+    body: customer
+    responses:
+      200:
+        body: 
+          application/json: success
+            
+              
+      500:
+        body: 
+          application/json: serverError
+            
+              
+        
+            
+          
+            
+         
+
+
+      
+
+      
+        
+    

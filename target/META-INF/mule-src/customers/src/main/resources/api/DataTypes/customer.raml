@@ -1,0 +1,20 @@
+#%RAML 1.0 DataType
+type: object
+properties:
+  firstname: 
+    type: string
+  lastname: string
+  email : string  
+  mobileNumber : string
+  address : 
+    type: !include address.raml
+    xml:
+      name: address
+  AccountNumber: string
+  sortcode: string
+examples:
+  example1: !include ../example/customer1.raml
+
+    
+
+    

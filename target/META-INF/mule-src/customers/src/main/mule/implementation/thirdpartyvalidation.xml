@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:validation="http://www.mulesoft.org/schema/mule/validation" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd">
+	
+		<flow name="thirdpartyvalidation" doc:id="33f31b0b-4b28-45ab-8df4-bd12c249040f" >
+		<scatter-gather doc:name="Scatter-Gather" doc:id="32d3b55a-75c5-4d4c-a61d-092f56810e13">
+			<route>
+				<ee:transform doc:name="Transform Message" doc:id="1bef3aff-b29b-486f-9d15-658e6e2495fa">
+					<ee:message>
+						<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+	email: vars.payload.email
+}]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+				<http:request method="POST" doc:name="Request" doc:id="d9256f45-2a19-4aac-b37b-d264a8f46dce" config-ref="HTTP_Request_configuration" path="/emailvalidation" />
+				<ee:transform doc:name="Transform Message" doc:id="e6f588e4-5508-4798-85fa-afc63ed3f732">
+					<ee:message>
+						<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+				<set-variable value="#[payload]" doc:name="Set Variable" doc:id="64a2629c-cfa3-4d24-90be-0f01b43e1c02" variableName="test1" />
+				<validation:is-true doc:name="Is true" doc:id="eb43af2c-3410-405f-a1af-d43d6f3dd97d" config-ref="Validation_Config" expression="#[vars.test1]"/>
+				<remove-variable doc:name="Remove Variable" doc:id="3b1f08a6-a3ec-4af6-8e04-d6717fb5ae3a" variableName="test1" />
+			</route>
+			<route>
+				<ee:transform doc:name="Transform Message" doc:id="716c4312-54bd-4e73-adba-e7b3a9acd687">
+					<ee:message>
+						<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+	mobileNumber:payload.mobileNumber
+}]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+				<http:request method="POST" doc:name="Request" doc:id="80bdd05c-ba05-4cd7-a928-33ae225f01ba" config-ref="HTTP_Request_configuration" path="/mobilenumbervalidation" />
+				<ee:transform doc:name="Transform Message" doc:id="36bb66e9-09e4-409c-98b0-7a80db6b8179">
+					<ee:message>
+						<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+				<set-variable value="#[payload]" doc:name="Set Variable" doc:id="144d11c0-3ce7-4fdb-847b-293c543b54fa" variableName="test2" />
+				<validation:is-true doc:name="Is true" doc:id="96bf1b45-c37a-45d3-a5a8-36777077be4f" config-ref="Validation_Config" expression="#[vars.test2]"/>
+				<remove-variable doc:name="Remove Variable" doc:id="8b83876f-a11e-4cfe-af0b-1a51898346b8" variableName="test2" />
+			</route>
+			<route>
+				<ee:transform doc:name="Transform Message" doc:id="6fd8746d-2f87-44bd-9c96-5af3ebc05943">
+					<ee:message>
+						<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+	address: payload.address.pincode
+	}]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+				<http:request method="POST" doc:name="Request" doc:id="d0012c12-40bb-4dd5-ae65-7721c8a0ce85" config-ref="HTTP_Request_configuration" path="/addressvalidation" />
+				<ee:transform doc:name="Transform Message" doc:id="6fb30033-6f7f-4f26-bdc8-d18082da935e">
+					<ee:message>
+						<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+				<set-variable value="#[payload]" doc:name="Set Variable" doc:id="c0cb0256-a4ee-4826-8d7d-c69ad96c38a7" variableName="test3" />
+				<validation:is-true doc:name="Is true" doc:id="5b5310ff-8cb1-48cb-b060-ae52ea63b213" config-ref="Validation_Config" expression="#[vars.test3]"/>
+				<remove-variable doc:name="Remove Variable" doc:id="fb603e8b-3fd0-45e6-871f-ee19c2d032ea" variableName="test3" />
+			</route>
+		</scatter-gather>
+		<http:request method="POST" doc:name="Request" doc:id="747561c2-9009-47a3-8302-d7f02eb813f6" config-ref="HTTP_Request_configuration" path="/bankcaccountvalidation" >
+			<http:body ><![CDATA[#[{"AccountNumber" : vars.payload.AccountNumber,
+	"SortCode" : vars.payload.sortcode}]]]></http:body>
+		</http:request>
+		<ee:transform doc:name="Transform Message" doc:id="33168a7e-b846-4f4a-a425-a028ca46794f" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	success: true
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<http:request method="POST" doc:name="Request" doc:id="30b00686-9073-4988-86cf-cfe592a8c31c" config-ref="HTTP_Request_configuration" path="/hsbccall">
+			<http:body ><![CDATA[#[vars.payload]]]></http:body>
+		</http:request>
+	</flow>
+</mule>

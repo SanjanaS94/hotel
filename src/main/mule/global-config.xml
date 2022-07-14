@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:api-gateway="http://www.mulesoft.org/schema/mule/api-gateway"
+	xmlns:secure-properties="http://www.mulesoft.org/schema/mule/secure-properties"
+	xmlns:validation="http://www.mulesoft.org/schema/mule/validation"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/api-gateway http://www.mulesoft.org/schema/mule/api-gateway/current/mule-api-gateway.xsd 
+http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd 
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/secure-properties http://www.mulesoft.org/schema/mule/secure-properties/current/mule-secure-properties.xsd">
+	 <http:listener-config name="customer-httpListenerConfig">
+        <http:listener-connection host="0.0.0.0" port="${http.port}" />
+    </http:listener-config>
+   <http:request-config name="HTTP_Request_configuration" doc:name="HTTP Request configuration" doc:id="5107414e-c25c-4c8a-b463-fdf9b4ed2820" >
+		<http:request-connection port="${https.port}" host="${secure::https.host}" protocol="HTTPS">
+			<http:authentication >
+				<http:basic-authentication username="${secure::https.username}" password="${secure::https.password}" />
+			</http:authentication>
+		</http:request-connection>
+	</http:request-config>
+	<validation:config name="Validation_Config" doc:name="Validation Config" doc:id="b0ac7282-1d0e-4b5e-aefd-c2bbe63319bd" />
+		<secure-properties:config name="Secure_Properties_Config" doc:name="Secure Properties Config" doc:id="6f4bdc23-6a45-48fd-97a7-83f51ad887a9" file="${prop}.yaml" key="${key.enc}" >
+		<secure-properties:encrypt algorithm="Blowfish" />
+	</secure-properties:config>
+	<configuration-properties doc:name="Configuration properties" doc:id="4cd7eabf-ae11-4236-b683-adb0e1cd17de" file="${prop}.yaml" />
+	 <api-gateway:autodiscovery apiId="17970099" ignoreBasePath="true" doc:name="API Autodiscovery" doc:id="12a3d554-b186-4c25-8df2-d58d66a981e6" flowRef="customer-main" />
+	<validation:config name="Validation_Config1" doc:name="Validation Config" doc:id="85e2c373-c6b8-4ae5-921e-adc5f29e0969" />
+	
+	</mule>

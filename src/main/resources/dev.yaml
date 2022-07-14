@@ -1,0 +1,9 @@
+http:
+  
+  path: "/api/*"
+  
+https:
+ 
+  host : "******"
+  username : "*****"
+  password : "*****"

@@ -1,0 +1,9 @@
+http:
+  
+  path: "/api/*"
+  
+https:
+ 
+  host : "getmockresponse.getsandbox.com"
+  username : "epkmca@gmail.com"
+  password : "![T9OiHaZ9doocMHN7x33G/w==]"
